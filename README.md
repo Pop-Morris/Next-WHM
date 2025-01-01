@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔔 BigCommerce Webhook Manager
 
-## Getting Started
+A modern web application built with Next.js that simplifies the management of BigCommerce webhooks. Create, monitor, and manage your webhooks with an intuitive interface.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 🔐 **Secure User Authentication**
+  - User registration and login
+  - Password reset functionality with email verification
+  - Personalized webhook profiles per user
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🎯 **Webhook Management**
+  - Create and configure new webhooks
+  - Monitor webhook status and history
+  - Update existing webhook configurations
+  - Delete unused webhooks
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 💾 **Data Persistence**
+  - PostgreSQL database integration
+  - Secure credential storage
+  - User-specific webhook profiles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+- **Frontend**
+  - [Next.js 14](https://nextjs.org/) - React framework
+  - [Tailwind CSS](https://tailwindcss.com/) - Styling
+  - React Server Components
+  - Server Actions
 
-To learn more about Next.js, take a look at the following resources:
+- **Backend**
+  - [PostgreSQL](https://www.postgresql.org/) - Database
+  - [Prisma](https://www.prisma.io/) - ORM
+  - [NextAuth.js](https://next-auth.js.org/) - Authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Deployment**
+  - [Coolify](https://coolify.io/) - Self-hosted deployment platform
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Getting Started
 
-## Deploy on Vercel
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/bigcommerce-webhook-manager.git
+   cd bigcommerce-webhook-manager
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Initialize the database**
+   ```bash
+   npx prisma migrate dev
+   ```
+
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+## 🔧 Configuration
+
+Create a `.env` file with the following variables:
+
+- DATABASE_URL="postgresql://..."
+
+- NEXTAUTH_SECRET="your-secret"
+
+- NEXTAUTH_URL="http://localhost:3000"
+
+- EMAIL_SERVER="..."
+
+- EMAIL_FROM="noreply@example.com"
+
+
+
+<p align="center">
+  Made with ❤️ by Mason and Josh
+</p>
