@@ -65,21 +65,6 @@ A modern web application built with Next.js that simplifies the management of Bi
    npm run dev
    ```
 
-## 🔧 Configuration
-
-Create a `.env` file with the following variables:
-
-- DATABASE_URL="postgresql://..."
-
-- NEXTAUTH_SECRET="your-secret"
-
-- NEXTAUTH_URL="http://localhost:3000"
-
-- EMAIL_SERVER="..."
-
-- EMAIL_FROM="noreply@example.com"
-
-
 
 <p align="center">
   Made with ❤️ by Mason and Josh
