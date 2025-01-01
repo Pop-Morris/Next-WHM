@@ -40,7 +40,7 @@ A modern web application built with Next.js that simplifies the management of Bi
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/bigcommerce-webhook-manager.git
+   git clone https://github.com/Pop-Morris/Next-WHM.git
    cd bigcommerce-webhook-manager
    ```
 
