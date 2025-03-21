@@ -1,0 +1,25 @@
+version: 0.2
+
+phases: 
+  Install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "Installing dependencies..."
+      - npm install
+
+
+build:
+  commands:
+    - echo "Building the Next.js application..."
+    - npm run build
+
+post_build:
+  commands:
+    - echo "Build completed. Preparing artifacts..."
+
+artifacts:
+  files:
+    - '**/*'
+    base-directory: .next
+    discard-paths: no
