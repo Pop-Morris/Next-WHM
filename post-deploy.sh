@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Prevent interactive config
+export DEBIAN_FRONTEND=noninteractive
+
 sudo apt-get update -y || exit 1
 
 sudo apt-get install -y curl || exit 1
