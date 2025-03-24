@@ -1,5 +1,14 @@
 #!/bin/bash
 
+sudo apt-get update -y || exit 1
+
+sudo apt-get install -y curl || exit 1
+
+# install node
+curl -fsSL https://deb.nodesource.com/setup_18.8 | sudo -E bash - || exit 1
+
+sudo apt-get install -y nodejs || exit 1
+
 #check app exists
 mkdir -p /var/www/html/whm-app
 
