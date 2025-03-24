@@ -5,7 +5,7 @@ sudo apt-get update -y || exit 1
 sudo apt-get install -y curl || exit 1
 
 # install node
-curl -fsSL https://deb.nodesource.com/setup_18.8 | sudo -E bash - || exit 1
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - || exit 1
 
 sudo apt-get install -y nodejs || exit 1
 
