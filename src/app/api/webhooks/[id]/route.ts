@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
 
 export async function DELETE(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -62,7 +61,7 @@ export async function DELETE(
 }
 
 export async function PUT(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
