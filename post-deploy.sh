@@ -18,8 +18,8 @@ mkdir -p /var/www/html/whm-app
 # Naviagate to app directory
 cd /var/www/html/whm-app || exit 1
 
-node-v
-npm-v
+node -v
+npm -v
 
 #check for pm2 (process manager)
 if ! command -V pm2 &> /dev/null
