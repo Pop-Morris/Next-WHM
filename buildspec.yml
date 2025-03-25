@@ -1,25 +1,33 @@
 version: 0.2
 
-phases: 
-  Install:
+phases:
+  pre_build:
+    commands:
+      - echo "Cleaning previous builds..."
+      - rm -rf .next
+      - rm -rf node_modules
+      - rm -rf dist
+  install:
     runtime-versions:
       nodejs: 18
     commands:
       - echo "Installing dependencies..."
       - npm install
-
-
-build:
-  commands:
-    - echo "Building the Next.js application..."
-    - npm run build
-
-post_build:
-  commands:
-    - echo "Build completed. Preparing artifacts..."
+  build:
+    commands:
+      - echo "Building the Next.js application..."
+      - npm run build
+  post_build:
+    commands:
+      - echo "Build completed. Preparing artifacts..."
 
 artifacts:
   files:
     - '**/*'
-    base-directory: .next
-    discard-paths: no
+    - 'package.json'
+    - 'package-lock.json'
+    - 'post-deploy.sh'
+    - '.next/**/*'
+    - 'public/**/*'
+  base-directory: '.'
+  discard-paths: no

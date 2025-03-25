@@ -37,4 +37,4 @@ npm install || exit 1
 npm run build || exit 1
 
 # Start app in production
-pm2 start /var/www/html/whm-app/dist/app.js --name "whm-app" || exit 1
+pm2 start npm --name "whm-app" -- start || exit 1
