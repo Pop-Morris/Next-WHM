@@ -1,8 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
+import { type NextApiRequest } from 'next';
+
+interface RouteParams {
+  id: string;
+}
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Record<string, string | string[]> }
+  { params }: { params: RouteParams }
 ) {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
@@ -53,7 +58,7 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Record<string, string | string[]> }
+  { params }: { params: RouteParams }
 ) {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
