@@ -1,5 +1,4 @@
-import { type NextRequest, NextResponse } from 'next/server';
-import { type NextApiRequest } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface RouteParams {
   id: string;
@@ -8,7 +7,7 @@ interface RouteParams {
 export async function DELETE(
   request: NextRequest,
   { params }: { params: RouteParams }
-) {
+): Promise<NextResponse> {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
     const accessToken = request.headers.get('X-Access-Token');
@@ -59,7 +58,7 @@ export async function DELETE(
 export async function PUT(
   request: NextRequest,
   { params }: { params: RouteParams }
-) {
+): Promise<NextResponse> {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
     const accessToken = request.headers.get('X-Access-Token');
