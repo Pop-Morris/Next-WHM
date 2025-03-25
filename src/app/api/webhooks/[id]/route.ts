@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-interface RouteParams {
-  id: string;
-}
+type Props = {
+  params: {
+    id: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: RouteParams }
+  props: Props
 ): Promise<NextResponse> {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
@@ -21,7 +24,7 @@ export async function DELETE(
 
     // Delete webhook from BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${props.params.id}`,
       {
         method: 'DELETE',
         headers: {
@@ -57,7 +60,7 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: RouteParams }
+  props: Props
 ): Promise<NextResponse> {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
@@ -73,7 +76,7 @@ export async function PUT(
 
     // Update webhook in BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${props.params.id}`,
       {
         method: 'PUT',
         headers: {
