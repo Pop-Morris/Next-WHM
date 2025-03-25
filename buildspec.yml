@@ -3,10 +3,16 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "Cleaning previous builds..."
+      - echo "Aggressive cleaning of workspace..."
+      - rm -rf *
       - rm -rf .next
-      - rm -rf node_modules
-      - rm -rf dist
+      - rm -rf .git
+      - git clone $CODEBUILD_SOURCE_REPO_URL .
+      - git checkout $CODEBUILD_SOURCE_VERSION
+      - echo "Listing all files in directory..."
+      - ls -la
+      - echo "Checking for db.ts..."
+      - find . -name "db.ts" || echo "db.ts not found"
   install:
     runtime-versions:
       nodejs: 18
@@ -20,6 +26,8 @@ phases:
   post_build:
     commands:
       - echo "Build completed. Preparing artifacts..."
+      - echo "Final directory contents:"
+      - ls -la
 
 artifacts:
   files:
