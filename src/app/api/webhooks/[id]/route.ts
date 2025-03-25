@@ -1,17 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-type Props = {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
 export async function DELETE(
   request: NextRequest,
-  props: Props
-): Promise<NextResponse> {
+  context: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await context.params;
     const storeHash = request.headers.get('X-Store-Hash');
     const accessToken = request.headers.get('X-Access-Token');
 
@@ -24,7 +18,7 @@ export async function DELETE(
 
     // Delete webhook from BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${props.params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${id}`,
       {
         method: 'DELETE',
         headers: {
@@ -60,9 +54,10 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  props: Props
-): Promise<NextResponse> {
+  context: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await context.params;
     const storeHash = request.headers.get('X-Store-Hash');
     const accessToken = request.headers.get('X-Access-Token');
     const body = await request.json();
@@ -76,7 +71,7 @@ export async function PUT(
 
     // Update webhook in BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${props.params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${id}`,
       {
         method: 'PUT',
         headers: {
