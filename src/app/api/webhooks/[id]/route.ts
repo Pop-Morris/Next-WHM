@@ -1,26 +1,23 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(
-  request: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
     const accessToken = request.headers.get('X-Access-Token');
 
     if (!storeHash || !accessToken) {
-      return new Response(
-        JSON.stringify({ error: 'Store credentials are required' }),
-        { 
-          status: 400,
-          headers: { 'Content-Type': 'application/json' }
-        }
+      return NextResponse.json(
+        { error: 'Store credentials are required' },
+        { status: 400 }
       );
     }
 
     // Delete webhook from BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${context.params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${params.id}`,
       {
         method: 'DELETE',
         headers: {
@@ -32,37 +29,31 @@ export async function DELETE(
 
     if (!bcResponse.ok) {
       const responseText = await bcResponse.text();
-      return new Response(
-        JSON.stringify({ 
+      return NextResponse.json(
+        { 
           error: 'Failed to delete webhook from BigCommerce',
           details: responseText
-        }),
-        { 
-          status: bcResponse.status,
-          headers: { 'Content-Type': 'application/json' }
-        }
+        },
+        { status: bcResponse.status }
       );
     }
 
-    return new Response(null, { status: 204 });
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error('Webhook deletion error:', error);
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         error: 'Failed to delete webhook',
         details: error instanceof Error ? error.message : String(error)
-      }),
-      { 
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      }
+      },
+      { status: 500 }
     );
   }
 }
 
 export async function PUT(
-  request: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
@@ -70,18 +61,15 @@ export async function PUT(
     const body = await request.json();
 
     if (!storeHash || !accessToken) {
-      return new Response(
-        JSON.stringify({ error: 'Store credentials are required' }),
-        { 
-          status: 400,
-          headers: { 'Content-Type': 'application/json' }
-        }
+      return NextResponse.json(
+        { error: 'Store credentials are required' },
+        { status: 400 }
       );
     }
 
     // Update webhook in BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${context.params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${params.id}`,
       {
         method: 'PUT',
         headers: {
@@ -95,37 +83,25 @@ export async function PUT(
 
     if (!bcResponse.ok) {
       const responseText = await bcResponse.text();
-      return new Response(
-        JSON.stringify({ 
+      return NextResponse.json(
+        { 
           error: 'Failed to update webhook in BigCommerce',
           details: responseText
-        }),
-        { 
-          status: bcResponse.status,
-          headers: { 'Content-Type': 'application/json' }
-        }
+        },
+        { status: bcResponse.status }
       );
     }
 
     const webhook = await bcResponse.json();
-    return new Response(
-      JSON.stringify(webhook.data),
-      { 
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
+    return NextResponse.json(webhook.data, { status: 200 });
   } catch (error) {
     console.error('Webhook update error:', error);
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         error: 'Failed to update webhook',
         details: error instanceof Error ? error.message : String(error)
-      }),
-      { 
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      }
+      },
+      { status: 500 }
     );
   }
 } 
