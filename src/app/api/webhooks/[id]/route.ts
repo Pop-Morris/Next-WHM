@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+type RouteContext = {
+  params: {
+    id: string;
+  };
+};
+
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
@@ -17,7 +23,7 @@ export async function DELETE(
 
     // Delete webhook from BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${context.params.id}`,
       {
         method: 'DELETE',
         headers: {
@@ -53,7 +59,7 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const storeHash = request.headers.get('X-Store-Hash');
@@ -69,7 +75,7 @@ export async function PUT(
 
     // Update webhook in BigCommerce
     const bcResponse = await fetch(
-      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${params.id}`,
+      `https://api.bigcommerce.com/stores/${storeHash}/v3/hooks/${context.params.id}`,
       {
         method: 'PUT',
         headers: {
