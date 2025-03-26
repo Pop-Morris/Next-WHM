@@ -43,13 +43,10 @@ phases:
       - echo "$COMMIT_HASH" > build_version.txt
       - echo "$TIMESTAMP" >> build_version.txt
       - echo "Creating deployment package..."
-      - tar --exclude='.git' --exclude='node_modules' -czf deployment.tar.gz .
       - echo "Deployment package created"
-      - ls -lh deployment.tar.gz
 
 artifacts:
   files:
-    - deployment.tar.gz
     - post-deploy.sh
   discard-paths: yes
   name: whm-deployment-$TIMESTAMP
