@@ -8,7 +8,7 @@ phases:
   pre_build:
     commands:
       - echo "Super aggressive cleaning of workspace..."
-      - rm -rf * .[!.]*  # This removes hidden files too
+      - rm -rf * .[!.]*
       - echo "Current directory after cleanup:"
       - ls -la
       - git clone $CODEBUILD_SOURCE_REPO_URL .
@@ -33,25 +33,23 @@ phases:
     commands:
       - echo "Building the Next.js application..."
       - NODE_ENV=production npm run build
+      - echo "Checking for problematic files..."
+      - find . -name "db.ts" -type f
+      - echo "Directory structure:"
+      - find . -type f | sort
   post_build:
     commands:
       - echo "Build completed. Creating versioned artifact..."
       - echo "$COMMIT_HASH" > build_version.txt
       - echo "$TIMESTAMP" >> build_version.txt
-      - echo "Build completed. Final directory contents:"
-      - ls -la
-      - echo "Final src/app/lib contents:"
-      - ls -la src/app/lib || echo "lib directory not found"
+      - echo "Creating deployment package..."
+      - tar --exclude='.git' --exclude='node_modules' -czf deployment.tar.gz .
+      - echo "Deployment package created"
+      - ls -lh deployment.tar.gz
 
 artifacts:
   files:
-    - '**/*'
-    - 'package.json'
-    - 'package-lock.json'
-    - 'post-deploy.sh'
-    - '.next/**/*'
-    - 'public/**/*'
-    - 'build_version.txt'
-  base-directory: '.'
-  discard-paths: no
-  name: whm-app-$TIMESTAMP-$COMMIT_HASH
+    - deployment.tar.gz
+    - post-deploy.sh
+  discard-paths: yes
+  name: whm-deployment-$TIMESTAMP
