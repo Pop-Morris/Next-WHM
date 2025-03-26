@@ -11,8 +11,6 @@ phases:
       - git checkout $CODEBUILD_SOURCE_VERSION
       - echo "Listing all files in directory..."
       - ls -la
-      - echo "Checking for db.ts..."
-      - find . -name "db.ts" || echo "db.ts not found"
   install:
     runtime-versions:
       nodejs: 18
