@@ -7,9 +7,9 @@ export DEBIAN_FRONTEND=noninteractive
 echo "Cleaning up old deployment..."
 rm -rf /var/www/html/whm-app/*
 
-# Extract new deployment
-echo "Extracting new deployment..."
-tar -xzf deployment.tar.gz -C /var/www/html/whm-app
+# Copy files to deployment directory
+echo "Copying deployment files..."
+cp -r . /var/www/html/whm-app/
 
 sudo apt-get update -y || exit 1
 
