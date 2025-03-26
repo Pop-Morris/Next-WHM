@@ -44,11 +44,6 @@ phases:
 artifacts:
   files:
     - '**/*'
-    - 'package.json'
-    - 'package-lock.json'
     - 'post-deploy.sh'
-    - '.next/**/*'
-    - 'public/**/*'
-  base-directory: '.'
   discard-paths: no
   name: whm-deployment-$TIMESTAMP
