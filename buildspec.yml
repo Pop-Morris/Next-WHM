@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    TIMESTAMP: $(date +%Y%m%d_%H%M%S)
+    
 phases:
   pre_build:
     commands:
@@ -9,6 +13,8 @@ phases:
       - ls -la
       - git clone $CODEBUILD_SOURCE_REPO_URL .
       - git checkout $CODEBUILD_SOURCE_VERSION
+      - COMMIT_HASH=$(git rev-parse --short HEAD)
+      - echo "Building version $COMMIT_HASH at $TIMESTAMP"
       - echo "Repository contents:"
       - ls -la
       - echo "Checking src/app/lib directory:"
@@ -29,6 +35,9 @@ phases:
       - NODE_ENV=production npm run build
   post_build:
     commands:
+      - echo "Build completed. Creating versioned artifact..."
+      - echo "$COMMIT_HASH" > build_version.txt
+      - echo "$TIMESTAMP" >> build_version.txt
       - echo "Build completed. Final directory contents:"
       - ls -la
       - echo "Final src/app/lib contents:"
@@ -42,5 +51,7 @@ artifacts:
     - 'post-deploy.sh'
     - '.next/**/*'
     - 'public/**/*'
+    - 'build_version.txt'
   base-directory: '.'
   discard-paths: no
+  name: whm-app-$TIMESTAMP-$COMMIT_HASH
