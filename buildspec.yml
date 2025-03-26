@@ -1,8 +1,4 @@
 version: 0.2
-
-env:
-  variables:
-    TIMESTAMP: $(date +%Y%m%d_%H%M%S)
     
 phases:
   pre_build:
@@ -34,7 +30,6 @@ phases:
       - echo "Building the Next.js application..."
       - NODE_ENV=production npm run build
       - echo "Checking for problematic files..."
-      - find . -name "db.ts" -type f
       - echo "Directory structure:"
       - find . -type f | sort
   post_build:
@@ -46,4 +41,4 @@ artifacts:
     - '**/*'
     - 'post-deploy.sh'
   discard-paths: no
-  name: whm-deployment-$TIMESTAMP
+  name: whm-deployment-$(date +%Y%m%d_%H%M%S)
