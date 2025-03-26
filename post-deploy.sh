@@ -3,9 +3,6 @@
 # Prevent interactive config
 export DEBIAN_FRONTEND=noninteractive
 
-# Stop any running app
-pm2 stop whm-app || true
-
 # Clean up old deployment
 echo "Cleaning up old deployment..."
 rm -rf /var/www/html/whm-app/*
@@ -32,23 +29,8 @@ cd /var/www/html/whm-app || exit 1
 node -v
 npm -v
 
-#check for pm2 (process manager)
-if ! command -V pm2 &> /dev/null
-then
-  echo "pm2 not found, installing..."
-  npm install -g pm2 || exit 1
-else
-  echo "pm2 is already installed"
-fi
-
 # Install dependencies
 npm install || exit 1
 
 # Build next.js app
 npm run build || exit 1
-
-# Start app in production
-pm2 start npm --name "whm-app" -- start || exit 1
-
-# Clean up deployment archive
-rm deployment.tar.gz
