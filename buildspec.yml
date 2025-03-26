@@ -39,14 +39,16 @@ phases:
       - find . -type f | sort
   post_build:
     commands:
-      - echo "Build completed. Creating versioned artifact..."
-      - echo "$COMMIT_HASH" > build_version.txt
-      - echo "$TIMESTAMP" >> build_version.txt
-      - echo "Creating deployment package..."
-      - echo "Deployment package created"
+      - echo "Build completed"
 
 artifacts:
   files:
-    - post-deploy.sh
-  discard-paths: yes
+    - '**/*'
+    - 'package.json'
+    - 'package-lock.json'
+    - 'post-deploy.sh'
+    - '.next/**/*'
+    - 'public/**/*'
+  base-directory: '.'
+  discard-paths: no
   name: whm-deployment-$TIMESTAMP
