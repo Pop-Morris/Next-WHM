@@ -1,44 +1,26 @@
-version: 0.2
-    
+version: 0.2  
+
 phases:
-  pre_build:
-    commands:
-      - echo "Super aggressive cleaning of workspace..."
-      - rm -rf * .[!.]*
-      - echo "Current directory after cleanup:"
-      - ls -la
-      - git clone $CODEBUILD_SOURCE_REPO_URL .
-      - git checkout $CODEBUILD_SOURCE_VERSION
-      - COMMIT_HASH=$(git rev-parse --short HEAD)
-      - echo "Building version $COMMIT_HASH at $TIMESTAMP"
-      - echo "Repository contents:"
-      - ls -la
-      - echo "Checking src/app/lib directory:"
-      - ls -la src/app/lib || echo "lib directory not found"
-      - echo "Full directory tree:"
-      - tree || (apt-get update && apt-get install -y tree && tree)
   install:
     runtime-versions:
       nodejs: 18
     commands:
       - echo "Installing dependencies..."
       - npm install
-      - echo "Clearing Next.js cache..."
-      - npm run clean || echo "No clean script found"
+
   build:
     commands:
-      - echo "Building the Next.js application..."
-      - NODE_ENV=production npm run build
-      - echo "Checking for problematic files..."
-      - echo "Directory structure:"
-      - find . -type f | sort
+      - echo "Building Next.js application..."
+      - npm run build
+
   post_build:
     commands:
-      - echo "Build completed"
+      - echo "Preparing files for deployment..."
 
 artifacts:
   files:
     - '**/*'
-    - 'post-deploy.sh'
+    - '.ebextensions/**/*'
+    - 'Procfile'
+  base-directory: '.'
   discard-paths: no
-  name: whm-deployment-$(date +%Y%m%d_%H%M%S)
